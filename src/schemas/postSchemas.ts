@@ -8,3 +8,8 @@ export const createSchema = z.object({
 export const getSinglePostSchema = z.object({
     id: z.string()
 })
+
+export const getAllPosttsQuerySchema = z.object({
+    page:z.number({coerce:true}).optional(),
+    limit: z.number({coerce:true}).optional()
+})
