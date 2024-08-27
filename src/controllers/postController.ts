@@ -15,7 +15,7 @@ export const getAllPosts = async (req: Request, res: Response) => {
     });
   }
 };
-
+  
 export const createPort = async (req: Request, res: Response) => {
   try {
     const body = createSchema.parse(req.body);
