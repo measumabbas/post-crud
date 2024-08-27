@@ -11,5 +11,7 @@ export const getSinglePostSchema = z.object({
 
 export const getAllPosttsQuerySchema = z.object({
     page:z.number({coerce:true}).optional(),
-    limit: z.number({coerce:true}).optional()
+    limit: z.number({coerce:true}).optional(),
+    status:z.number({coerce:true}).optional(),
+    title:z.number({coerce:true}).optional()
 })

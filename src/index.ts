@@ -17,7 +17,7 @@ app
     console.log(err);
   });
 
-connectToDb()
+connectToDb() 
   .then(() => {
     console.log("connected to database successfully");
   })

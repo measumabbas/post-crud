@@ -3,12 +3,14 @@ import Post from "../models/Post";
 import {
   createSchema,
   getAllPosttsQuerySchema,
-  getSinglePostSchema,
+  getSinglePostSchema
 } from "../schemas/postSchemas";
 
 export const getAllPosts = async (req: Request, res: Response) => {
   try {
     const query = getAllPosttsQuerySchema.parse(req.query);
+    const status = query.status ? { status: query.status } : {};
+    const title = query.title ? { status: query.status } : {};
     const page = query.page || 1;
     const limit = query.limit || 5;
     const startIndex = (page - 1) * limit;
@@ -17,7 +19,7 @@ export const getAllPosts = async (req: Request, res: Response) => {
     const total_pages = count < limit ? 1 : Math.ceil(count / limit);
     
     res.status(200).json({
-      message: "Opeartion Successfull",
+      message: "Opeartion Successful",
       result: {
         items: posts,
         meta: {
