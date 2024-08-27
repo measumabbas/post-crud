@@ -3,11 +3,11 @@ import { createPort, deletePost, getAllPosts, getSinglePost, updatePost } from '
 
 const router:Router = express.Router()
 
-router.get('/',getAllPosts)
-router.get('/:id',getSinglePost)
-router.post('/',createPort)
-router.put('/:id',updatePost)
-router.delete('/:id',deletePost)
+router.get('/post',getAllPosts)
+router.get('/post/:id',getSinglePost)
+router.post('/post',createPort)
+router.put('/post/:id',updatePost)
+router.delete('/post/:id',deletePost)
 
 
 export default router

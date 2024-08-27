@@ -1,13 +1,33 @@
 import { Request, Response } from "express";
 import Post from "../models/Post";
-import { createSchema, getSinglePostSchema } from "../schemas/postSchemas";
+import {
+  createSchema,
+  getAllPosttsQuerySchema,
+  getSinglePostSchema,
+} from "../schemas/postSchemas";
 
 export const getAllPosts = async (req: Request, res: Response) => {
   try {
-    const posts = await Post.find();
+    const query = getAllPosttsQuerySchema.parse(req.query);
+    const page = query.page || 1;
+    const limit = query.limit || 5;
+    const startIndex = (page - 1) * limit;
+    const posts = await Post.find().skip(startIndex).limit(limit);
+    const count = await Post.countDocuments();
+    const total_pages = count < limit ? 1 : Math.ceil(count / limit);
+    
     res.status(200).json({
       message: "Opeartion Successfull",
-      result: posts,
+      result: {
+        items: posts,
+        meta: {
+          total_items: count,
+          item_count: posts.length,
+          items_per_page: limit,
+          current_page: page,
+          total_pages,
+        },
+      },
     });
   } catch (error) {
     res.status(500).json({
@@ -86,7 +106,7 @@ export const deletePost = async (req: Request, res: Response) => {
     }
   } catch (error) {
     res.status(500).json({
-        error,
-      });
+      error,
+    });
   }
 };
