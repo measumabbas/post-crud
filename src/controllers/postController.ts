@@ -10,7 +10,7 @@ export const getAllPosts = async (req: Request, res: Response) => {
   try {
     const query = getAllPosttsQuerySchema.parse(req.query);
     const page = query.page || 1;
-    const limit = query.limit || 10;
+    const limit = query.limit || 5;
     const startIndex = (page - 1) * limit;
     const posts = await Post.find().skip(startIndex).limit(limit);
     const count = await Post.countDocuments();
