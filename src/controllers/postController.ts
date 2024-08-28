@@ -9,17 +9,30 @@ import {
 export const getAllPosts = async (req: Request, res: Response) => {
   try {
     const query = getAllPosttsQuerySchema.parse(req.query);
-    const status = query.status ? { status: query.status } : {};
-    const title = query.title ? { status: query.status } : {};
+    
     const page = query.page || 1;
     const limit = query.limit || 5;
     const startIndex = (page - 1) * limit;
-    const posts = await Post.find().skip(startIndex).limit(limit);
-    const count = await Post.countDocuments();
-    const total_pages = count < limit ? 1 : Math.ceil(count / limit);
+
     
+    const filters: any = {};
+    
+    if (query.status) {
+      filters.status = query.status;
+    }
+
+    if (query.title) {
+      filters.title = query.title;
+    }
+
+
+    const posts = await Post.find(filters).skip(startIndex).limit(limit);
+    const count = await Post.countDocuments(filters);
+
+    const total_pages = count < limit ? 1 : Math.ceil(count / limit);
+
     res.status(200).json({
-      message: "Opeartion Successful",
+      message: "Operation Successful",
       result: {
         items: posts,
         meta: {
@@ -37,6 +50,7 @@ export const getAllPosts = async (req: Request, res: Response) => {
     });
   }
 };
+
   
 export const createPort = async (req: Request, res: Response) => {
   try {
